@@ -1,69 +1,103 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
 import { CreateUserDto } from './dto/create.dto';
+import { SignInDto } from './dto/signIn.dto';
+import * as bcrypt from "bcrypt"
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
-    constructor(private prismaService: PrismaService) {}
+  constructor(
+    private prismaService: PrismaService,
+    private jwtService:JwtService
+  ) {}
 
-    async findAll() {
-        return await this.prismaService.user.findMany();
+  async findAll() {
+    return await this.prismaService.user.findMany();
+  }
+
+  async findOneById(id: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+    return user;
+  }
+
+  async findByEmail(email: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+    });
+    return user;
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    const existingUser = await this.findByEmail(createUserDto.email);
+    if (existingUser) {
+      throw new BadRequestException('User with this email already exists');
+    }
+    return await this.prismaService.user.create({ data: createUserDto });
+  }
+
+  async update(id: string, updateUserDto: CreateUserDto) {
+    const existingUser = await this.findOneById(id);
+    if (!existingUser) {
+      throw new NotFoundException('User not found');
+    }
+    return await this.prismaService.user.update({
+      where: { id },
+      data: updateUserDto,
+    });
+  }
+
+  async remove(id: string) {
+    const existingUser = await this.findOneById(id);
+    if (!existingUser) {
+      throw new NotFoundException('User not found');
+    }
+    await this.prismaService.user.delete({ where: { id } });
+  }
+
+  async getRoleForUser(userId: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId },
+      include: {
+        role: true,
+      },
+    });
+
+    if (!user) {
+      return null;
     }
 
-    async findOneById(id: string) {
-        const user = await this.prismaService.user.findUnique({
-            where: { id },
-        });
-        return user;
+    return user.role;
+  }
+
+  async signIn(signInDto: SignInDto) {
+    const user = await this.prismaService.user.findUnique({
+      where: {
+        email: signInDto.email,
+      },
+    });
+
+
+    if (!user) {
+      throw new BadRequestException('user not found');
     }
 
-    async findByEmail(email: string) {
-        const user = await this.prismaService.user.findUnique({
-            where: { email },
-        });
-        return user;
+    const passwordMatch = await bcrypt.compare(
+      signInDto.password,
+      user.password,
+    );
+
+    if (!passwordMatch) {
+      throw new BadRequestException('Invalid password');
     }
 
-    async create(createUserDto: CreateUserDto) {
-        const existingUser = await this.findByEmail(createUserDto.email);
-        if (existingUser) {
-            throw new BadRequestException('User with this email already exists');
-        }
-        return await this.prismaService.user.create({ data: createUserDto });
-    }
+    const token = this.jwtService.sign({ id: user.id });
 
-    async update(id: string, updateUserDto: CreateUserDto) {
-        const existingUser = await this.findOneById(id);
-        if (!existingUser) {
-            throw new NotFoundException('User not found');
-        }
-        return await this.prismaService.user.update({
-            where: { id },
-            data: updateUserDto,
-        });
-    }
-
-    async remove(id: string) {
-        const existingUser = await this.findOneById(id);
-        if (!existingUser) {
-            throw new NotFoundException('User not found');
-        }
-        await this.prismaService.user.delete({ where: { id } });
-    }
-
-    async getRoleForUser(userId: string) {
-        const user = await this.prismaService.user.findUnique({
-            where: { id: userId },
-            include: {
-                role: true, 
-            },
-        });
-
-        if (!user) {
-            return null; 
-        }
-
-        return user.role; 
-    }
-
+    return {
+      token,
+      user,
+    };
+  }
 }

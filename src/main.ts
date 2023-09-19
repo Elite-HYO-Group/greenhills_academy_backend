@@ -1,18 +1,17 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
+import { config } from 'dotenv';
+config(); 
 
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from 'src/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
-import { PrismaService } from './services/prisma.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle('GreenHills_ACADEMY')
-    .setDescription('GreenHills_ACADEMY API')
+    .setTitle('GreenHills_Academy')
+    .setDescription('GreenHills_Academy API')
     .setVersion('1.0')
     .addTag('user')
     .addBearerAuth(
@@ -27,7 +26,6 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
-
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   await app.listen(process.env.APP_PORT || 3000);
