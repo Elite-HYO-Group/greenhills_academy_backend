@@ -7,63 +7,77 @@ datasource mongo {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id       String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  email String  @unique
-  firstname  String
-  lastname String
-  password String
-  roleId    String    @map("role_id") 
-  role      Role      @relation(fields: [roleId], references: [id])
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
-
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  email     String   @unique
+  firstname String
+  lastname  String
+  password  String
+  roleId    String   @map("role_id")
+  role      Role     @relation(fields: [roleId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Role {
-  id       String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  name String @unique
-  users     User[]    
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  name      String   @unique
+  users     User[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Staff {
-  id       String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  email String  @unique
-  firstname  String
-  lastname String
-  gender String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  email     String   @unique
+  firstname String
+  lastname  String
+  gender    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
 
 model News {
-  id          String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  title       String
-  content     String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  title     String   @unique
+  content   String
+  image     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
-
 
 model Admissions {
-  id          String    @id @default(auto()) @map("_id") @mongo.ObjectId
-
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-
+  id                String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  firstname         String
+  lastname          String
+  email             String
+  Location          String
+  parent1_FirstName String
+  parent1_LastName  String
+  parent2_FirstName String
+  parent2_LastName  String
+  year_of_entry     Int
+  grade             Int
+  status            String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
-
 
 model Sections {
-  id          String    @id @default(auto()) @map("_id") @mongo.ObjectId
-  name String @unique
+  id          String          @id @default(auto()) @map("_id") @mongo.ObjectId
+  name        String          @unique
   description String
+  image       String
+  slogan      String
+  overviewId  String          @map("overviewId")
+  overview    SectionOverview @relation(fields: [overviewId], references: [id])
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
 }
 
+model SectionOverview {
+  id       String     @id @default(auto()) @map("_id") @mongo.ObjectId
+  intro    String
+  overview String
+  sections Sections[]
+}
