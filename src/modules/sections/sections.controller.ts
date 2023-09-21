@@ -7,17 +7,16 @@ import {
   Body,
   Param,
   NotFoundException,
-  BadRequestException,
   UseInterceptors,
   UploadedFile,
-  UploadedFiles,
 } from '@nestjs/common';
 import { SectionsService } from './sections.service';
 import { CreateSectionDto } from './dto/create.dto';
 import { ApiBody, ApiConsumes, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { multerConfig } from './../../common/config/multer.config';
 import { Multer } from 'multer';
+import * as fs from 'fs'; 
+import * as path from 'path'; 
 
 @Controller('/api/v1/sections')
 @ApiTags('sections')
@@ -26,7 +25,6 @@ export class SectionsController {
 
   @Get()
   async findAll() {
-     console.log("egokoooooooooo")
     const sections = await this.sectionsService.findAll();
     return sections;
   }
@@ -41,7 +39,14 @@ export class SectionsController {
   }
 
   @Post()
+  async create(@Body() createSectionDto: CreateSectionDto) {
+    const section = await this.sectionsService.create(createSectionDto);
+    return section;
+  }
+
+  @Post('upload-image/:sectionId')
   @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
   @ApiBody({
     schema: {
       type: 'object',
@@ -50,30 +55,40 @@ export class SectionsController {
           type: 'string',
           format: 'binary',
         },
-        name: {
-          type: 'string',
-        },
-        description: {
-          type: 'string',
-        },
-        slogan: {
-          type: 'string',
-        },
       },
     },
   })
-  @UseInterceptors(FileInterceptor('image'))
-  async create(
+  async uploadImage(
     @UploadedFile() image: Multer.File,
-    @Body() createSectionDto: CreateSectionDto,
+    @Param('sectionId') sectionId: string, 
   ) {
-    console.log("Yooooooooooo")
-    console.log(image.path);
-    createSectionDto.image = image.path;
 
-    console.log('stuff', createSectionDto);
-    const section = await this.sectionsService.create(createSectionDto);
-    return section;
+    const rootDirectory = process.cwd();
+    const uploadDirectory = path.join(
+      rootDirectory,
+      'src',
+      'common',
+      'uploads',
+      'section',
+    );
+
+    if (!fs.existsSync(uploadDirectory)) {
+      fs.mkdirSync(uploadDirectory, { recursive: true });
+    }
+
+    const imagePath = path.join(
+      uploadDirectory,
+      `${Date.now()}-${image.originalname}`,
+    );
+
+    try {
+      fs.writeFileSync(imagePath, image.buffer);
+    } catch (error) {
+      console.error('Error saving image:', error);
+      throw new Error('Failed to save the image.');
+    }
+
+    return this.sectionsService.updateSectionImage(sectionId, imagePath);
   }
 
   @Put('/:id')
@@ -100,5 +115,5 @@ export class SectionsController {
     }
     await this.sectionsService.remove(id);
     return { message: 'Section deleted successfully' };
-  } 
+  }
 }

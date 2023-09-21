@@ -40,7 +40,6 @@ export class SectionsService {
         name: createSectionDto.name,
         description: createSectionDto.description,
         slogan: createSectionDto.slogan,
-        image: createSectionDto.image,
         overview: { connect: { id: overview.id } }, // Associate with the SectionOverview
       },
     });
@@ -67,7 +66,6 @@ export class SectionsService {
         name: updateSectionDto.name,
         description: updateSectionDto.description,
         slogan: updateSectionDto.slogan,
-        image: updateSectionDto.image,
       },
     });
 
@@ -80,5 +78,22 @@ export class SectionsService {
       throw new NotFoundException('Section not found');
     }
     await this.prismaService.sections.delete({ where: { id } });
+  }
+
+  async updateSectionImage(sectionId: string, imagePath: string) {
+    const section = await this.prismaService.sections.findUnique({
+      where: { id: sectionId },
+    });
+
+    if (!section) {
+      throw new NotFoundException('Section not found');
+    }
+
+    const updatedSection = await this.prismaService.sections.update({
+      where: { id: sectionId },
+      data: { image: imagePath },
+    });
+
+    return updatedSection;
   }
 }

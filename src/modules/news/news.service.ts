@@ -52,4 +52,21 @@ export class NewsService {
     }
     await this.prismaService.news.delete({ where: { id } });
   }
+
+  async updateNewsImage(newsId: string, imagePath: string) {
+    const section = await this.prismaService.news.findUnique({
+      where: { id: newsId },
+    });
+
+    if (!section) {
+      throw new NotFoundException('Section not found');
+    }
+
+    const updatedSection = await this.prismaService.news.update({
+      where: { id: newsId },
+      data: { image: imagePath },
+    });
+
+    return updatedSection;
+  }
 }

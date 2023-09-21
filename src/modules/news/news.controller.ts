@@ -6,14 +6,20 @@ import {
   Delete,
   Body,
   Param,
-  NotFoundException
+  NotFoundException,
+  UseInterceptors,
+  UploadedFile
 } from '@nestjs/common';
 import { NewsService } from './news.service'; 
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateNewsDto } from './create.dto';
+import * as fs from 'fs'; 
+import * as path from 'path';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Multer } from 'multer';
 
-@Controller('/api/v1/news') 
-@ApiTags('news') 
+@Controller('/api/v1/news')
+@ApiTags('news')
 export class NewsController {
   constructor(private newsService: NewsService) {}
 
@@ -48,5 +54,51 @@ export class NewsController {
   async remove(@Param('id') id: string) {
     await this.newsService.remove(id);
     return { message: 'News deleted successfully' };
+  }
+
+  @Post('upload-image/:sectionId')
+  @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('image'))
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        image: {
+          type: 'string',
+          format: 'binary',
+        },
+      },
+    },
+  })
+  async uploadImage(
+    @UploadedFile() image: Multer.File,
+    @Param('sectionId') sectionId: string,
+  ) {
+    const rootDirectory = process.cwd();
+    const uploadDirectory = path.join(
+      rootDirectory,
+      'src',
+      'common',
+      'uploads',
+      'section',
+    );
+
+    if (!fs.existsSync(uploadDirectory)) {
+      fs.mkdirSync(uploadDirectory, { recursive: true });
+    }
+
+    const imagePath = path.join(
+      uploadDirectory,
+      `${Date.now()}-${image.originalname}`,
+    );
+
+    try {
+      fs.writeFileSync(imagePath, image.buffer);
+    } catch (error) {
+      console.error('Error saving image:', error);
+      throw new Error('Failed to save the image.');
+    }
+
+    return this.newsService.updateNewsImage(sectionId, imagePath);
   }
 }

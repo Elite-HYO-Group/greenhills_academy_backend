@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { CreateSectionOverviewDto } from './overview.dto';
 import { Type } from 'class-transformer';
@@ -28,20 +28,19 @@ export class CreateSectionDto {
   @IsString()
   slogan: string;
 
-  @ApiProperty({
-    required: true,
-    description: 'The image URL or path for the section.',
-  })
-  @IsNotEmpty()
-  @IsString()
-  image: string;
+  // @ApiProperty({
+  //   required: true,
+  //   description: 'The image URL or path for the section.',
+  // })
+  // @IsNotEmpty()
+  // @IsString()
+  // image: string;
 
   @ApiProperty({
     required: true,
     description: 'The section overview.',
-    type: CreateSectionOverviewDto, 
+    type: CreateSectionOverviewDto,
   })
-  @IsNotEmpty()
   @ValidateNested()
   @Type(() => CreateSectionOverviewDto)
   overview: CreateSectionOverviewDto;
