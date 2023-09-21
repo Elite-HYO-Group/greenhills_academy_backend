@@ -7,7 +7,7 @@ import { Roles } from 'src/common/decorator/role.decorator';
 
 @Controller('/api/v1/roles')
 @ApiTags('role')
-@UseGuards(RolesGuard)
+// @UseGuards(RolesGuard)
 
 export class RoleController {
     constructor(private roleService: RoleService) {}
@@ -38,7 +38,7 @@ export class RoleController {
     }
 
     @Put('/:id')
-    @Roles('ADMIN')
+    // @Roles('ADMIN')
     async update(@Param('id') id: string, @Body() updateRoleDto: CreateRoleDto) {
         const existingRole = await this.roleService.findOneById(id);
         if (!existingRole) {
