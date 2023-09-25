@@ -38,6 +38,15 @@ export class NewsController {
     return newsItem;
   }
 
+  @Get('/category/:categoryName')
+  async findBycategoryName(@Param('categoryName') categoryName: string) {
+    const newsItem = await this.newsService.findByCategory(categoryName);
+    if (!newsItem) {
+      throw new NotFoundException('News not found');
+    }
+    return newsItem;
+  }
+  
   @Post()
   async create(@Body() createNewsDto: CreateNewsDto) {
     const existingNews = await this.newsService.create(createNewsDto);
@@ -56,7 +65,7 @@ export class NewsController {
     return { message: 'News deleted successfully' };
   }
 
-  @Post('upload-image/:sectionId')
+  @Post('upload-image/:newsId')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('image'))
   @ApiBody({
@@ -72,7 +81,7 @@ export class NewsController {
   })
   async uploadImage(
     @UploadedFile() image: Multer.File,
-    @Param('sectionId') sectionId: string,
+    @Param('newsId') newsId: string,
   ) {
     const rootDirectory = process.cwd();
     const uploadDirectory = path.join(
@@ -99,6 +108,6 @@ export class NewsController {
       throw new Error('Failed to save the image.');
     }
 
-    return this.newsService.updateNewsImage(sectionId, imagePath);
+    return this.newsService.updateNewsImage(newsId, imagePath);
   }
 }

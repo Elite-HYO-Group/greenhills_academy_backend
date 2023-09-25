@@ -42,6 +42,7 @@ model News {
   title     String   @unique
   content   String
   image     String?
+  category  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -50,7 +51,7 @@ model Admissions {
   id                String   @id @default(auto()) @map("_id") @mongo.ObjectId
   firstname         String
   lastname          String
-  email             String
+  email             String @unique
   Location          String
   parent1_FirstName String
   parent1_LastName  String
@@ -67,7 +68,7 @@ model Sections {
   id          String          @id @default(auto()) @map("_id") @mongo.ObjectId
   name        String          @unique
   description String
-  image     String?
+  image       String?
   slogan      String
   overviewId  String          @map("overviewId")
   overview    SectionOverview @relation(fields: [overviewId], references: [id])
@@ -76,11 +77,20 @@ model Sections {
 }
 
 model SectionOverview {
-  id       String     @id @default(auto()) @map("_id") @mongo.ObjectId
-  intro    String
-  overview String
-  sections Sections[]
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
+  id        String     @id @default(auto()) @map("_id") @mongo.ObjectId
+  intro     String
+  overview  String
+  sections  Sections[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
 
+model Education {
+  id          String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  programName String @unique
+  overview    String
+  curriculum  String
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

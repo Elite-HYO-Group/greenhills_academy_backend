@@ -4,7 +4,6 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
-import { newsEnum } from 'src/common/enum/news-enum'; 
 import { CreateNewsDto } from './create.dto';
 
 @Injectable()
@@ -18,6 +17,13 @@ export class NewsService {
   async findOneById(id: string) {
     const newsItem = await this.prismaService.news.findUnique({
       where: { id },
+    });
+    return newsItem;
+  }
+
+  async findByCategory(category: string) {
+    const newsItem = await this.prismaService.news.findMany({
+      where: { category },
     });
     return newsItem;
   }
@@ -54,19 +60,19 @@ export class NewsService {
   }
 
   async updateNewsImage(newsId: string, imagePath: string) {
-    const section = await this.prismaService.news.findUnique({
+    const news = await this.prismaService.news.findUnique({
       where: { id: newsId },
     });
 
-    if (!section) {
+    if (!news) {
       throw new NotFoundException('Section not found');
     }
 
-    const updatedSection = await this.prismaService.news.update({
+    const updatedNews = await this.prismaService.news.update({
       where: { id: newsId },
       data: { image: imagePath },
     });
 
-    return updatedSection;
+    return updatedNews;
   }
 }
