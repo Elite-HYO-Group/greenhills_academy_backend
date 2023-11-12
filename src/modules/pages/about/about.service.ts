@@ -8,7 +8,7 @@ export class AboutService {
     constructor(private prismaService: PrismaService){}
 
     async create(createAboutDto: CreateAboutDto){
-        await this.prismaService.ladingPage.updateMany({
+        await this.prismaService.aboutPage.updateMany({
             where: {
                 isActive: true,
             },
@@ -43,7 +43,7 @@ export class AboutService {
     async deletePage(pageId: string){
         const page = await this.prismaService.aboutPage.findUnique({where: {id: pageId}});
         if(!page) throw new NotFoundException("Page with id ["+pageId+"] not found");
-        await this.prismaService.ladingPage.delete({where: {id: pageId}});
+        await this.prismaService.aboutPage.delete({where: {id: pageId}});
         return {
             success: true,
             message: "Page deleted successfully"
