@@ -11,6 +11,7 @@ import { NewsModule } from './modules/news/news.module';
 import { EducationModule } from './modules/education/education.module';
 import { ContactModule } from './modules/contact/contact.module';
 import { HomeModule } from './modules/pages/home/home.module';
+import { AboutModule } from './modules/pages/about/about.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { HomeModule } from './modules/pages/home/home.module';
     EducationModule,
     ContactModule,
     HomeModule,
+    AboutModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
