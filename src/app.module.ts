@@ -10,6 +10,7 @@ import { StaffModule } from './modules/staff/staff.module';
 import { NewsModule } from './modules/news/news.module';
 import { EducationModule } from './modules/education/education.module';
 import { ContactModule } from './modules/contact/contact.module';
+import { HomeModule } from './modules/pages/home/home.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ContactModule } from './modules/contact/contact.module';
     NewsModule,
     EducationModule,
     ContactModule,
+    HomeModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
