@@ -4,7 +4,7 @@ import { AboutService } from './about.service';
 import { CreateAboutDto } from './dto/create.dto';
 import { UpdateAboutDto } from './dto/updated.dto';
 
-@Controller('about')
+@Controller('/api/v1/pages/about')
 @ApiTags('/api/v1/pages/about')
 export class AboutController {
   constructor(private aboutService: AboutService){}
