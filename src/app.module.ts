@@ -18,6 +18,8 @@ import { ContactPageModule } from './modules/pages/contact/contact.module';
 import { QueriesModule } from './modules/queries/queries.module';
 import { LearnersLifeModule } from './modules/pages/learners-life/learners-life.module';
 import { NumbersModule } from './modules/numbers/numbers.module';
+import { AlbumsModule } from './modules/alubms/alubms.module';
+import { GalleryModule } from './modules/gallery/gallery.module';
 
 @Module({
   imports: [
@@ -39,7 +41,9 @@ import { NumbersModule } from './modules/numbers/numbers.module';
     ContactPageModule,
     QueriesModule,
     LearnersLifeModule,
-    NumbersModule
+    NumbersModule,
+    AlbumsModule,
+    GalleryModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

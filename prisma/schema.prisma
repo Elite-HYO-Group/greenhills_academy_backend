@@ -194,3 +194,22 @@ model Numbers {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt 
 } 
+
+model Album {
+  id         String  @id @default(auto()) @map("_id") @mongo.ObjectId
+  title      String
+  isPublic   Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  galleries  Gallery[]
+}
+
+model Gallery {
+  id         String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  attachmentUrl String
+  isPublic   Boolean @default(true)
+  album      Album    @relation(fields: [albumId], references: [id])
+  albumId    String @mongo.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
