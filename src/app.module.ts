@@ -13,6 +13,7 @@ import { ContactModule } from './modules/contact/contact.module';
 import { HomeModule } from './modules/pages/home/home.module';
 import { AboutModule } from './modules/pages/about/about.module';
 import { EducationPageModule } from './modules/pages/education/education.module';
+import { AdmissionPageModule } from './modules/pages/admission-page/admission-page.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { EducationPageModule } from './modules/pages/education/education.module'
     ContactModule,
     HomeModule,
     AboutModule,
-    EducationPageModule
+    EducationPageModule,
+    AdmissionPageModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

@@ -141,3 +141,17 @@ model EducationPage {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt 
 }
+
+model AdmissionPage {
+  id String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  bannerImageUrl String?
+  bannerTitle String?
+  enrollementSection Json
+  missionSection Json
+  firstCharacterSection Json
+  secondCharacterSection Json
+  lastCharacterSection Json
+  isActive    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt 
+}
