@@ -166,3 +166,13 @@ model ContactPage {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt 
 }
+
+model Queries{
+  id String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  name String
+  email String
+  message String
+  isReplied Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt 
+}
