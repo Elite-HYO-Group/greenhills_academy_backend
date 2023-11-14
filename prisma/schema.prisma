@@ -244,3 +244,16 @@ model Career {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
+
+
+model NavLinks {
+  id String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  navbar Json?
+  menu Json?
+  footerLinks Json?
+  footerAddresses Json?
+  socials Json?
+  isActive    Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt 
+} 
