@@ -20,6 +20,7 @@ import { LearnersLifeModule } from './modules/pages/learners-life/learners-life.
 import { NumbersModule } from './modules/numbers/numbers.module';
 import { AlbumsModule } from './modules/alubms/alubms.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
+import { EventsModule } from './modules/events/events.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { GalleryModule } from './modules/gallery/gallery.module';
     LearnersLifeModule,
     NumbersModule,
     AlbumsModule,
-    GalleryModule
+    GalleryModule,
+    EventsModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
