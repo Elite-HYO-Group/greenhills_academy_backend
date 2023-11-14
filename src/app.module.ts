@@ -22,6 +22,7 @@ import { AlbumsModule } from './modules/alubms/alubms.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
 import { EventsModule } from './modules/events/events.module';
 import { CareersModule } from './modules/careers/careers.module';
+import { NavlinksModule } from './modules/navlinks/navlinks.module';
 
 @Module({
   imports: [
@@ -47,7 +48,8 @@ import { CareersModule } from './modules/careers/careers.module';
     AlbumsModule,
     GalleryModule,
     EventsModule,
-    CareersModule
+    CareersModule,
+    NavlinksModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
