@@ -21,6 +21,7 @@ import { NumbersModule } from './modules/numbers/numbers.module';
 import { AlbumsModule } from './modules/alubms/alubms.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
 import { EventsModule } from './modules/events/events.module';
+import { CareersModule } from './modules/careers/careers.module';
 
 @Module({
   imports: [
@@ -45,7 +46,8 @@ import { EventsModule } from './modules/events/events.module';
     NumbersModule,
     AlbumsModule,
     GalleryModule,
-    EventsModule
+    EventsModule,
+    CareersModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

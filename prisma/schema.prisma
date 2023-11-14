@@ -230,3 +230,17 @@ model Event {
   updatedAt  DateTime @updatedAt
 }
 
+model Career {
+  id         String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  jobTitle  String
+  description String
+  industry  String
+  jobLevel    String
+  experience  String
+  deadline    DateTime
+  isFullTime  Boolean
+  pictureUrl  String
+  isPublic      Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
