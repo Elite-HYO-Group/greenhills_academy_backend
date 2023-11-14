@@ -16,6 +16,7 @@ import { EducationPageModule } from './modules/pages/education/education.module'
 import { AdmissionPageModule } from './modules/pages/admission-page/admission-page.module';
 import { ContactPageModule } from './modules/pages/contact/contact.module';
 import { QueriesModule } from './modules/queries/queries.module';
+import { LearnersLifeModule } from './modules/pages/learners-life/learners-life.module';
 
 @Module({
   imports: [
@@ -35,7 +36,8 @@ import { QueriesModule } from './modules/queries/queries.module';
     EducationPageModule,
     AdmissionPageModule,
     ContactPageModule,
-    QueriesModule
+    QueriesModule,
+    LearnersLifeModule
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

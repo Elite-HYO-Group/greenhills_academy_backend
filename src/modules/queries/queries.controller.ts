@@ -3,8 +3,8 @@ import { ApiParam, ApiTags } from '@nestjs/swagger';
 import { QueriesService } from './queries.service';
 import { CreateQueryDto } from './dto/create.dto';
 
-@ApiTags('queries')
-@Controller('queries')
+@ApiTags('/api/v1/queries')
+@Controller('/api/v1/queries')
 export class QueriesController {
     constructor(private queriesService: QueriesService){}
 
