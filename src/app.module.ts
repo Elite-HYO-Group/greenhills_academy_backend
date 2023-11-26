@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaService } from './services/prisma.service';
 import { UserModule } from './modules/user/user.module';
-import { RoleModule } from './modules/role/role.module';
 import { ConfigModule } from '@nestjs/config';
 import { SectionsModule } from './modules/sections/sections.module';
 import { StaffModule } from './modules/staff/staff.module';
@@ -31,7 +30,6 @@ import { NavlinksModule } from './modules/navlinks/navlinks.module';
       envFilePath: ['.env'],
     }),
     UserModule,
-    RoleModule,
     SectionsModule,
     StaffModule,
     NewsModule,
@@ -49,7 +47,7 @@ import { NavlinksModule } from './modules/navlinks/navlinks.module';
     GalleryModule,
     EventsModule,
     CareersModule,
-    NavlinksModule
+    NavlinksModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],

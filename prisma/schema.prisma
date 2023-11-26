@@ -8,31 +8,27 @@ datasource mongo {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
-  email     String   @unique
-  firstname String
-  lastname  String
-  password  String
-  roleId    String   @map("role_id")
-  role      Role     @relation(fields: [roleId], references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Role {
-  id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
-  name      String   @unique
-  users     User[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String      @id @default(auto()) @map("_id") @mongo.ObjectId
+  email         String      @unique
+  username      String      @unique
+  name          String
+  password      String
+  phoneNumber   String
+  department    String
+  role          String
+  permissions   String[]
+  profilePicture String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 }
 
 model Staff {
   id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  name  String
+  title String
   email     String   @unique
-  firstname String
-  lastname  String
-  gender    String
+  phone     String
+  profilePicture String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

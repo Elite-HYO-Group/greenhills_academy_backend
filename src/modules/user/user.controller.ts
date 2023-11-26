@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Body,
+  Param,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create.dto';
 import { ApiTags } from '@nestjs/swagger';
-import { sign } from './../../../node_modules/@types/jsonwebtoken/index.d';
 import { SignInDto } from './dto/signIn.dto';
 
 @Controller('/api/v1/users')
@@ -33,12 +42,19 @@ export class UserController {
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
     }
+
+    const userNameExists = await this.userService.findByUsername(
+      createUserDto.username,
+    );
+    if (userNameExists)
+      throw new BadRequestException('Username already exists');
+
     const user = await this.userService.create(createUserDto);
     return user;
   }
 
   @Put('/:id')
-  async update(@Param('id') id: string, @Body() updateUserDto: CreateUserDto) {
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     const existingUser = await this.userService.findOneById(id);
     if (!existingUser) {
       throw new NotFoundException('User not found');

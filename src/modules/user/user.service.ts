@@ -1,15 +1,19 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
-import { CreateUserDto } from './dto/create.dto';
+import { CreateUserDto, UpdateUserDto } from './dto/create.dto';
 import { SignInDto } from './dto/signIn.dto';
-import * as bcrypt from "bcrypt"
+import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UserService {
   constructor(
     private prismaService: PrismaService,
-    private jwtService:JwtService
+    private jwtService: JwtService,
   ) {}
 
   async findAll() {
@@ -30,6 +34,13 @@ export class UserService {
     return user;
   }
 
+  async findByUsername(username: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { username },
+    });
+    return user;
+  }
+
   async create(createUserDto: CreateUserDto) {
     const existingUser = await this.findByEmail(createUserDto.email);
     if (existingUser) {
@@ -38,7 +49,7 @@ export class UserService {
     return await this.prismaService.user.create({ data: createUserDto });
   }
 
-  async update(id: string, updateUserDto: CreateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const existingUser = await this.findOneById(id);
     if (!existingUser) {
       throw new NotFoundException('User not found');
@@ -60,12 +71,9 @@ export class UserService {
   async getRoleForUser(userId: string) {
     const user = await this.prismaService.user.findUnique({
       where: { id: userId },
-      include: {
-        role: true,
-      },
     });
 
-    if (!user) {
+    if (user.role !== 'admin') {
       return null;
     }
 
@@ -78,7 +86,6 @@ export class UserService {
         email: signInDto.email,
       },
     });
-
 
     if (!user) {
       throw new BadRequestException('user not found');

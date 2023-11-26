@@ -5,25 +5,21 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 import * as bcrypt from 'bcrypt';
 
-
 async function run() {
   try {
-    const hashedPassword = await bcrypt.hash('admin@123', 10); 
+    const hashedPassword = await bcrypt.hash('admin@123', 10);
 
     const user = await prisma.user.create({
       data: {
         email: 'irabestverie@gmail.com',
-        firstname: 'Best Verie',
-        lastname: 'Iradukunda',
+        name: 'Best Verie',
+        username: 'Iradukunda',
         password: hashedPassword,
-        role: {
-          create: {
-            name: 'ADMIN', 
-          },
-        },
-      },
-      include: {
-        role: true, 
+        phoneNumber: '0785436874',
+        department: 'IT',
+        role: 'admin',
+        permissions: ['read', 'write'],
+        profilePicture: 'https://images.iakda.png',
       },
     });
 
