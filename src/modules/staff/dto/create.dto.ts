@@ -6,13 +6,13 @@ export class CreateStaffDto {
     required: true,
   })
   @IsNotEmpty()
-  firstname: string;
+  name: string;
 
   @ApiProperty({
     required: true,
   })
   @IsNotEmpty()
-  lastname: string;
+  title: string;
 
   @ApiProperty({
     required: true,
@@ -24,5 +24,11 @@ export class CreateStaffDto {
     required: true,
   })
   @IsNotEmpty()
-  gender: string;
+  phone: string;
+
+  @ApiProperty({
+    required: true,
+  })
+  @IsNotEmpty()
+  profilePicture: string;
 }

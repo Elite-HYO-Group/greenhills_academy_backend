@@ -1,14 +1,11 @@
-import { RoleService } from "src/modules/role/role.service";
-import { UserService } from "src/modules/user/user.service";
+import { UserService } from 'src/modules/user/user.service';
 
 export function UserRoleMiddleware(userService: UserService) {
-    return async (req, res, next) => {
-        if (req.user) {
-            const userRole = await userService.getRoleForUser(req.user.id);
-            req.userRole = userRole;
-          }
-        next();
-      };
-  
-  }
-  
+  return async (req, res, next) => {
+    if (req.user) {
+      const userRole = await userService.getRoleForUser(req.user.id);
+      req.userRole = userRole;
+    }
+    next();
+  };
+}
