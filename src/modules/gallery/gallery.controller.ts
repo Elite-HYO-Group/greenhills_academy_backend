@@ -1,4 +1,12 @@
-import { Controller, Post, Get, Put, Delete, Param, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+} from '@nestjs/common';
 import { GalleryService } from './gallery.service';
 import { ApiTags, ApiParam, ApiBody } from '@nestjs/swagger';
 import { CreateGalleryDto } from './dto/create.dto';
@@ -11,18 +19,18 @@ export class GalleryController {
 
   @Post()
   @ApiBody({ type: CreateGalleryDto })
-  async createGallery(@Body() createGalleryDto: CreateGalleryDto){
+  async createGallery(@Body() createGalleryDto: CreateGalleryDto) {
     return this.galleryService.createGallery(createGalleryDto);
   }
 
   @Get('')
-  async getAll(){
+  async getAll() {
     return this.galleryService.getAllItems();
   }
 
   @Get(':id')
   @ApiParam({ name: 'id' })
-  async getGalleryById(@Param('id') id: string){
+  async getGalleryById(@Param('id') id: string) {
     return this.galleryService.getGalleryById(id);
   }
 
@@ -32,13 +40,13 @@ export class GalleryController {
   async updateGallery(
     @Param('id') id: string,
     @Body() updateGalleryDto: UpdateGalleryDto,
-  ){
+  ) {
     return this.galleryService.updateGallery(id, updateGalleryDto);
   }
 
   @Delete(':id')
   @ApiParam({ name: 'id' })
-  async deleteGallery(@Param('id') id: string){
+  async deleteGallery(@Param('id') id: string) {
     return this.galleryService.deleteGallery(id);
   }
 }

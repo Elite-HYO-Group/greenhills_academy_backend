@@ -1,49 +1,60 @@
 // update-event.dto.ts
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDateString,IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class UpdateEventDto {
-  @ApiProperty({required: false, example: 'Updated Event Title'})
+  @ApiProperty({ required: true, example: 'Event Title' })
   @IsOptional()
   @IsString()
-  title?: string;
+  title: string;
 
-  @ApiProperty({required: false, example: 'Updated Event Description'})
+  @ApiProperty({ required: true, example: 'Event Description' })
   @IsOptional()
   @IsString()
-  description?: string;
+  description: string;
 
-  @ApiProperty({required: false, example: '2023-12-31'})
+  @ApiProperty({ required: true })
+  @IsOptional()
+  @IsString()
+  slug: string;
+
+  @ApiProperty({ required: true, example: '2023-12-31' })
   @IsOptional()
   @IsDateString()
-  date?: string;
+  date: string;
 
-  @ApiProperty({required: false, example: '10:00 AM'})
+  @ApiProperty({ required: true, example: '10:00 AM' })
   @IsOptional()
   @IsString()
-  startTime?: string;
+  startTime: string;
 
-  @ApiProperty({required: false, example: '06:00 PM'})
+  @ApiProperty({ required: true, example: '06:00 PM' })
   @IsOptional()
   @IsString()
-  endTime?: string;
+  endTime: string;
 
-  @ApiProperty({required: false, example: 'Updated Event Location'})
+  @ApiProperty({ required: true, example: 'Event Location' })
   @IsOptional()
   @IsString()
-  location?: string;
+  location: string;
 
-  @ApiProperty({required: false, example: 'Updated Cover Photo URL'})
+  @ApiProperty({ required: false, example: 'Cover Photo URL' })
   @IsOptional()
   @IsString()
   coverPhotoUrl?: string;
 
-  @ApiProperty({required: false, example: 'Updated Picture URL'})
+  @ApiProperty({
+    required: true,
+    example: [
+      'https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png',
+      'https://res.cloudinary.com/dbqwmndns/image/upload/v1700301546/GHA/virtual_quufxw.png',
+    ],
+  })
   @IsOptional()
   @IsString()
-  pictureUrl?: string;
+  moreImages: string[];
 
-  @ApiProperty({required: false, example: false})
+  @ApiProperty({ required: false, example: true })
   @IsOptional()
   @IsBoolean()
   isPublic?: boolean;

@@ -1,49 +1,74 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsBoolean, IsDateString, IsOptional, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsDateString, IsOptional, IsString } from 'class-validator';
 
 export class UpdateCareerDto {
-  @ApiProperty({required: false, example: 'Updated Job Title'})
+  @ApiProperty({ required: true, example: 'Event Title' })
   @IsOptional()
   @IsString()
-  jobTitle?: string;
+  title: string;
 
-  @ApiProperty({required: false, example: 'Updated Job Description'})
+  @ApiProperty({ required: true })
   @IsOptional()
   @IsString()
-  description?: string;
+  slug: string;
 
-  @ApiProperty({required: false, example: 'Updated Industry'})
+  @ApiProperty({ required: true, example: 'Full time' })
   @IsOptional()
   @IsString()
-  industry?: string;
+  type: string;
 
-  @ApiProperty({required: false, example: 'Updated Job Level'})
+  @ApiProperty({ required: true, example: 'Event Description' })
   @IsOptional()
   @IsString()
-  jobLevel?: string;
+  description: string;
 
-  @ApiProperty({required: false, example: 'Updated Experience'})
+  @ApiProperty({ required: true, example: 'Finance' })
   @IsOptional()
   @IsString()
-  experience?: string;
+  industry: string;
 
-  @ApiProperty({required: false, example: '2024-12-31T23:59:59Z'})
+  @ApiProperty({ required: true, example: 'Entry Level' })
+  @IsOptional()
+  @IsString()
+  jobLevel: string;
+
+  @ApiProperty({ required: true, example: '2-4 Years' })
+  @IsOptional()
+  @IsString()
+  experience: string;
+
+  @ApiProperty({ required: true, example: '500,000 - 1,000,000' })
+  @IsOptional()
+  @IsString()
+  salary: string;
+
+  @ApiProperty({ required: true, example: '2023-12-31' })
   @IsOptional()
   @IsDateString()
-  deadline?: string;
+  date: string;
 
-  @ApiProperty({required: false, example: false})
-  @IsOptional()
-  @IsBoolean()
-  isFullTime?: boolean;
-
-  @ApiProperty({required: false, example: 'Updated Picture URL'})
+  @ApiProperty({ required: true, example: '10:00 AM' })
   @IsOptional()
   @IsString()
-  pictureUrl?: string;
+  startTime: string;
 
-  @ApiProperty({required: false, example: false})
+  @ApiProperty({ required: true, example: '12/01/2024' })
+  @IsOptional()
+  @IsString()
+  deadline: string;
+
+  @ApiProperty({ required: false, example: 'Cover Photo URL' })
+  @IsOptional()
+  @IsString()
+  coverPhotoUrl?: string;
+
+  @ApiProperty({ required: false, example: true })
   @IsOptional()
   @IsBoolean()
   isPublic?: boolean;
+
+  @ApiProperty({ required: false, example: true })
+  @IsOptional()
+  @IsBoolean()
+  isPublished?: boolean;
 }
