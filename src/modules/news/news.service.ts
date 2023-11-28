@@ -21,9 +21,9 @@ export class NewsService {
     return newsItem;
   }
 
-  async findByCategory(category: string) {
+  async findByCategory(type: string) {
     const newsItem = await this.prismaService.news.findMany({
-      where: { category },
+      where: { type },
     });
     return newsItem;
   }
@@ -70,7 +70,7 @@ export class NewsService {
 
     const updatedNews = await this.prismaService.news.update({
       where: { id: newsId },
-      data: { image: imagePath },
+      data: { imageUrl: imagePath },
     });
 
     return updatedNews;

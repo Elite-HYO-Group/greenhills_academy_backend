@@ -36,9 +36,11 @@ model Staff {
 model News {
   id        String   @id @default(auto()) @map("_id") @mongo.ObjectId
   title     String   @unique
-  content   String
-  image     String?
-  category  String
+  date      DateTime
+  description String
+  imageUrl  String
+  slug      String
+  type      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -191,21 +193,10 @@ model Numbers {
   updatedAt   DateTime @updatedAt 
 } 
 
-model Album {
-  id         String  @id @default(auto()) @map("_id") @mongo.ObjectId
-  title      String
-  isPublic   Boolean @default(true)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  galleries  Gallery[]
-}
-
 model Gallery {
   id         String   @id @default(auto()) @map("_id") @mongo.ObjectId
   attachmentUrl String
   isPublic   Boolean @default(true)
-  album      Album    @relation(fields: [albumId], references: [id])
-  albumId    String @mongo.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
@@ -220,24 +211,27 @@ model Event {
   endTime    String
   location    String
   coverPhotoUrl String?
-  pictureUrl    String
-  isPublic      Boolean @default(true)
+  moreImages    String[]
+  slug       String
+  isPublic   Boolean @default(true)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
 model Career {
   id         String   @id @default(auto()) @map("_id") @mongo.ObjectId
-  jobTitle  String
+  title      String
+  slug       String
+  type       String
+  isPublished Boolean @default(true)
   description String
   industry  String
   jobLevel    String
   experience  String
   deadline    DateTime
-  isFullTime  Boolean
-  pictureUrl  String
+  salary      String
   isPublic      Boolean @default(true)
-  createdAt  DateTime @default(now())
+  publishDate  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 

@@ -8,12 +8,12 @@ import {
   Param,
   NotFoundException,
   UseInterceptors,
-  UploadedFile
+  UploadedFile,
 } from '@nestjs/common';
-import { NewsService } from './news.service'; 
+import { NewsService } from './news.service';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateNewsDto } from './create.dto';
-import * as fs from 'fs'; 
+import * as fs from 'fs';
 import * as path from 'path';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Multer } from 'multer';
@@ -46,7 +46,7 @@ export class NewsController {
     }
     return newsItem;
   }
-  
+
   @Post()
   async create(@Body() createNewsDto: CreateNewsDto) {
     const existingNews = await this.newsService.create(createNewsDto);

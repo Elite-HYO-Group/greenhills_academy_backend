@@ -17,7 +17,6 @@ import { ContactPageModule } from './modules/pages/contact/contact.module';
 import { QueriesModule } from './modules/queries/queries.module';
 import { LearnersLifeModule } from './modules/pages/learners-life/learners-life.module';
 import { NumbersModule } from './modules/numbers/numbers.module';
-import { AlbumsModule } from './modules/alubms/alubms.module';
 import { GalleryModule } from './modules/gallery/gallery.module';
 import { EventsModule } from './modules/events/events.module';
 import { CareersModule } from './modules/careers/careers.module';
@@ -30,7 +29,7 @@ import { NavlinksModule } from './modules/navlinks/navlinks.module';
       envFilePath: ['.env'],
     }),
     UserModule,
-    SectionsModule,
+    // SectionsModule,
     StaffModule,
     NewsModule,
     EducationModule,
@@ -43,7 +42,6 @@ import { NavlinksModule } from './modules/navlinks/navlinks.module';
     QueriesModule,
     LearnersLifeModule,
     NumbersModule,
-    AlbumsModule,
     GalleryModule,
     EventsModule,
     CareersModule,

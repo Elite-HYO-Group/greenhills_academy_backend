@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/services/prisma.service';
 import { CreateGalleryDto } from './dto/create.dto';
 import { UpdateGalleryDto } from './dto/update.dto';
@@ -13,13 +17,13 @@ export class GalleryService {
     });
   }
 
-async getAllItems(){
+  async getAllItems() {
     return this.prismaService.gallery.findMany();
-}
+  }
 
   async updateGallery(id: string, updateGalleryDto: UpdateGalleryDto) {
     const gallery = await this.findGalleryById(id);
-    if(!gallery) throw new BadRequestException("Gallery item not found");
+    if (!gallery) throw new BadRequestException('Gallery item not found');
 
     return this.prismaService.gallery.update({
       where: { id },
@@ -29,7 +33,7 @@ async getAllItems(){
 
   async deleteGallery(id: string) {
     const gallery = await this.findGalleryById(id);
-    if(!gallery) throw new BadRequestException("Gallery item not found");
+    if (!gallery) throw new BadRequestException('Gallery item not found');
 
     return this.prismaService.gallery.delete({
       where: { id },
@@ -41,7 +45,9 @@ async getAllItems(){
   }
 
   private async findGalleryById(id: string) {
-    const gallery = await this.prismaService.gallery.findUnique({ where: { id } });
+    const gallery = await this.prismaService.gallery.findUnique({
+      where: { id },
+    });
 
     if (!gallery) {
       throw new NotFoundException(`Gallery with ID ${id} not found`);
