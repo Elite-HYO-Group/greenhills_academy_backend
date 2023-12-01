@@ -28,7 +28,7 @@ async function bootstrap() {
   SwaggerModule.setup('docs', app, document);
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  await app.listen(process.env.APP_PORT || 9000);
+  await app.listen(process.env.APP_PORT || 9000, '0.0.0.0');
 
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
