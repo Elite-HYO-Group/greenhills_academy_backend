@@ -3,17 +3,24 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { PrismaService } from 'src/services/prisma.service';
 import { JwtModule, JwtService } from '@nestjs/jwt'; 
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
-    JwtModule.registerAsync({
-      useFactory: async () => ({
-        secret: process.env.JWT_SECRET,
-        signOptions: { expiresIn: process.env.EXPIRES_IN },
-      }),
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+    }),
+    JwtModule.register({
+      global: true,
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: process.env.EXPIRES_IN,
+      },
     }),
   ],
   controllers: [UserController],
-  providers: [UserService, PrismaService, JwtService],
+  providers: [UserService, PrismaService, JwtStrategy],
+  exports: [PassportModule]
 })
 export class UserModule {}
