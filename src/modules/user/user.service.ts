@@ -46,7 +46,10 @@ export class UserService {
     if (existingUser) {
       throw new BadRequestException('User with this email already exists');
     }
-    return await this.prismaService.user.create({ data: createUserDto });
+    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    return await this.prismaService.user.create({
+      data: { ...createUserDto, password: hashedPassword },
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
@@ -100,8 +103,8 @@ export class UserService {
       throw new BadRequestException('Invalid password');
     }
 
-    const token = this.jwtService.sign({ id: user.id });
-
+    const token = await this.jwtService.sign(user);
+    delete user.password;
     return {
       token,
       user,

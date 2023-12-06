@@ -21,12 +21,19 @@ import { GalleryModule } from './modules/gallery/gallery.module';
 import { EventsModule } from './modules/events/events.module';
 import { CareersModule } from './modules/careers/careers.module';
 import { NavlinksModule } from './modules/navlinks/navlinks.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
+    }),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: {
+        expiresIn: process.env.EXPIRES_IN,
+      },
     }),
     UserModule,
     // SectionsModule,
