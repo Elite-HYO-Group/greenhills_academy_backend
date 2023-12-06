@@ -95,8 +95,10 @@ model Education {
 
 model LadingPage {
   id          String   @id @default(auto()) @map("_id") @mongo.ObjectId
+  sections Json?
   mission     Json?
   coreValues  String[]
+  valuesImage String?
   uniquenessTitle String
   uniqueness  Json[]
   numbers     Json

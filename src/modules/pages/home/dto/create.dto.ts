@@ -2,9 +2,37 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsNotEmpty, IsOptional } from "class-validator";
 
 export class CreateHomeDto{
-    @ApiProperty({required: true})
+    @ApiProperty({required: true, example: {
+      text: "Green Hills Academy Nurtures A Community Of Caring, Inquisitive And Principled Learners Whose Pursue Excellence And Contribute To An Equitable World.",
+      imageUrl: "https://cloudinary.com/addad"
+    }})
     @IsNotEmpty()
-    mission: string;
+    mission: any;
+
+    @ApiProperty({required: true, example: [
+      {
+      title: "Nursery School",
+      buttonLabel: "Know more",
+      imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "Primary School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "Middle School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "High School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      }
+  ]})
+    @IsNotEmpty()
+    sections: any;
 
     @ApiProperty({required: true, example: [
             "Integrity",
@@ -13,6 +41,11 @@ export class CreateHomeDto{
     ]})
     @IsNotEmpty()
     coreValues: string[];
+
+    
+    @ApiProperty({ required: false })
+    @IsOptional()
+    valuesImage?: string
 
     @ApiProperty({required: true})
     @IsNotEmpty()
@@ -75,13 +108,45 @@ export class CreateHomeDto{
 
 
 export class UpdateHomeDto {
-    @ApiProperty({ required: false })
-    @IsOptional()
-    mission?: string;
+    @ApiProperty({required: true, example: {
+      text: "Green Hills Academy Nurtures A Community Of Caring, Inquisitive And Principled Learners Whose Pursue Excellence And Contribute To An Equitable World.",
+      imageUrl: "https://cloudinary.com/addad"
+    }})
+    @IsNotEmpty()
+    mission: any;
+
+    @ApiProperty({required: true, example: [
+      {
+      title: "Nursery School",
+      buttonLabel: "Know more",
+      imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "Primary School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "Middle School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      },
+      {
+        title: "High School",
+        buttonLabel: "Know more",
+        imageUrl: "https://cloudinary.com/addad"
+      }
+  ]})
+    @IsNotEmpty()
+    sections: any;
 
     @ApiProperty({ required: false, example: ["Integrity", "Intellectual", "Curiosity"] })
     @IsOptional()
     coreValues?: string[];
+
+    @ApiProperty({ required: false })
+    @IsOptional()
+    valuesImage?: string
 
     @ApiProperty({ required: false })
     @IsOptional()
